@@ -1,4 +1,4 @@
-package com.example.banking_app.entity;
+package com.example.banking_app.entities;
 
 import com.example.banking_app.enums.AccountStatus;
 import jakarta.persistence.*;
@@ -12,18 +12,20 @@ import java.util.List;
 
 @Entity
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "TYPE",length = 4)
 public class BankAccount {
     @Id
     private String id;
-    private Date createAt;
     private double balance;
+    private Date createdAt;
+    @Enumerated(EnumType.STRING)
     private AccountStatus status;
-    private String currency;
     @ManyToOne
     private Customer customer;
-    @OneToMany(mappedBy = "bankAccount")
-    private List<Operation> operation;
+
+    @OneToMany(mappedBy = "bankAccount",fetch = FetchType.LAZY)
+    private List<AccountOperation> accountOperations;
 }

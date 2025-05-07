@@ -1,4 +1,4 @@
-package com.example.banking_app.entity;
+package com.example.banking_app.entities;
 
 import com.example.banking_app.enums.OperationType;
 import jakarta.persistence.*;
@@ -14,12 +14,14 @@ import java.util.Date;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Operation {
+public class AccountOperation {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Date date;
+    private Date operationDate;
     private double amount;
+    @Enumerated(EnumType.STRING)
     private OperationType type;
     @ManyToOne
     private BankAccount bankAccount;
+    private String description;
 }
